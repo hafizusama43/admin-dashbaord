@@ -1,17 +1,17 @@
 'use client'
 
-import React from "react"
+import React, { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-
 import Image from "next/image"
-
+import { signIn } from "next-auth/react";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import { RenderInput } from "@/components/form-components/input"
 import { useForm } from "react-hook-form"
+import { Spin } from "@/components/ui/spin"
 
 
 const formSchema = z.object({
@@ -23,7 +23,7 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentPropsWithoutRef<"form">) {
-
+    const [loading, setLoading] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -32,10 +32,16 @@ export function LoginForm({
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(data: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        setLoading(true)
+        await signIn('credentials', {
+            redirect: true,
+            email: data.email,
+            password: data.password,
+            callbackUrl: "/"
+        });
     }
     return (
         <Form {...form}>
@@ -57,9 +63,7 @@ export function LoginForm({
                         Forgot your password?
                     </Link>
                 </div>
-                <Button type="submit" className="w-full">
-                    Login
-                </Button>
+                <Button disabled={loading} type="submit" className="w-full">{loading ? <Spin size="sm" /> : 'Login'}</Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                     <span className="relative z-10 bg-background px-2 text-muted-foreground">
                         or

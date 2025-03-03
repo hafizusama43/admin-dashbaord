@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { CircleHelp } from "lucide-react"
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 import CustomTooltip from "../ui/custom-tooltip";
+import clsx from "clsx";
 
 
 interface RenderInputProps<T extends FieldValues> {
@@ -34,7 +35,7 @@ export const RenderInput = <T extends FieldValues>({
                         </CustomTooltip>}
                     </FormLabel>}
                     <FormControl>
-                        <Input type={type === 'number' ? "number" : "text"} disabled={disabled} {...field} />
+                        <Input className={clsx("", { "mt-1": label })} type={type === 'number' ? "number" : "text"} disabled={disabled} {...field} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

@@ -47,19 +47,10 @@ export function SignupForm({
                         Enter your information to create your account
                     </small>
                 </div>
-
                 <RenderInput form={form} name="email" label="Email" />
                 <RenderInput form={form} name="password" label="Password" />
-                <div className="flex items-center">
-                    <Link
-                        href="/forgot-password"
-                        className="ml-auto text-sm hover:underline"
-                    >
-                        Forgot your password?
-                    </Link>
-                </div>
                 <Button type="submit" className="w-full">
-                    Submit
+                    Countinue
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                     <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -71,9 +62,9 @@ export function SignupForm({
                     Login with Google
                 </Button>
                 <div className="text-center text-sm">
-                    Don&apos;t have an account?{" "}
-                    <Link href="/sign-up" className="underline underline-offset-4">
-                        Sign up
+                    Alreadt have an account?{" "}
+                    <Link href="/login" className="underline underline-offset-4">
+                        Login
                     </Link>
                 </div>
             </form>
