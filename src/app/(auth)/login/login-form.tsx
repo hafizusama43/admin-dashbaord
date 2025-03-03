@@ -37,18 +37,23 @@ export function LoginForm({
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         setLoading(true)
-        const res = await signIn('credentials', {
-            redirect: false,
-            email: data.email,
-            password: data.password,
-            callbackUrl: "/"
-        });
-        if (res?.error && res.error === 'CredentialsSignin') {
-            toast.error("Invalid credentials!");
-            setLoading(false)
-        } else {
-            toast.success("Login successful!");
-            redirect("/")
+        try {
+            const res = await signIn('credentials', {
+                redirect: false,
+                email: data.email,
+                password: data.password,
+                callbackUrl: "/"
+            });
+            if (res?.error && res.error === 'CredentialsSignin') {
+                toast.error("Invalid credentials!");
+                setLoading(false)
+            } else {
+                toast.success("Login successful!");
+                redirect("/")
+            }
+
+        } catch (error) {
+            console.error(error)
         }
     }
     return (

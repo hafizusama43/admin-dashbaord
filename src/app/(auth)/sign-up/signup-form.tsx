@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import { RenderInput } from "@/components/form-components/input"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 
 const formSchema = z.object({
@@ -46,11 +47,27 @@ export function SignupForm({
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_BASEURL + '/register';
+            if (!apiUrl) throw new Error("API base URL is not defined");
+
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values),
+            });
+
+            if (!res.ok) throw new Error(`Error: ${res.status} ${res.statusText}`);
+
+            toast.success("User created successfully!");
+            // form.reset()
+        } catch (error) {
+            console.error("Submit error:", error);
+            toast.error("Failed to create user. Please try again.");
+        }
     }
+
 
     return (
         <Form {...form}>

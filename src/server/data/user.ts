@@ -2,9 +2,10 @@ import { eq, and } from "drizzle-orm";
 import { users } from "../db/schema"; // Import schema
 import { User } from "next-auth";
 import { db } from "../db/drizzle";
+import bcrypt from "bcryptjs";
 
 // Function to get a user by email
-export const getUserByEmail = async (email: string): Promise<User> => {
+export const getUserByEmail = async (email: string): Promise<User | null> => {
     const result = await db
         .select({
             id: users.id,
@@ -19,6 +20,10 @@ export const getUserByEmail = async (email: string): Promise<User> => {
         .from(users)
         .where(and(eq(users.email, email), eq(users.isDeleted, false)))
         .limit(1);
+
+    if (result.length === 0) {
+        return null;
+    }
     const user = result[0];
 
     return {
@@ -32,3 +37,20 @@ export const getUserByEmail = async (email: string): Promise<User> => {
         lastName: user.lastName,
     } as User;
 };
+
+
+export const createUser = async (data: Record<string, string>): Promise<boolean> => {
+    console.log(data)
+    const user = await db.insert(users).values([
+        {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: await bcrypt.hash(data.password, 10),
+            role: "admin",
+            createdAt: new Date(),
+            isDeleted: false,
+        },
+    ]).execute();
+    return user.rowCount > 0 ? true : false;
+}

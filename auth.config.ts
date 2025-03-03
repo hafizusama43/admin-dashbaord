@@ -20,7 +20,7 @@ export const authOptions: AuthOptions = {
             async authorize(credentials) {
                 console.log(credentials)
                 if (!credentials?.email || !credentials.password) { return null }
-                let user: User;
+                let user: User | null;
                 try {
                     user = await getUserByEmail(credentials?.email as string);
                     if (!user) {
