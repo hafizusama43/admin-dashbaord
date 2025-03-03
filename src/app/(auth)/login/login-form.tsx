@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -12,8 +12,9 @@ import { Form } from "@/components/ui/form"
 import { RenderInput } from "@/components/form-components/input"
 import { useForm } from "react-hook-form"
 import { Spin } from "@/components/ui/spin"
-import { useSearchParams } from 'next/navigation'
 import { toast } from "sonner"
+import { redirect } from 'next/navigation'
+
 
 
 const formSchema = z.object({
@@ -25,15 +26,6 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentPropsWithoutRef<"form">) {
-    const searchParams = useSearchParams()
-    const search = searchParams.get('error')
-    useEffect(() => {
-        if (search && search === 'CredentialsSignin') {
-            toast.error("Invalid credentials!");
-        }
-    }, [search])
-
-
     const [loading, setLoading] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -44,15 +36,20 @@ export function LoginForm({
     })
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         setLoading(true)
-        await signIn('credentials', {
-            redirect: true,
+        const res = await signIn('credentials', {
+            redirect: false,
             email: data.email,
             password: data.password,
             callbackUrl: "/"
         });
+        if (res?.error && res.error === 'CredentialsSignin') {
+            setLoading(false)
+            toast.error("Invalid credentials!");
+            redirect("/")
+        } else {
+            
+        }
     }
     return (
         <Form {...form}>
