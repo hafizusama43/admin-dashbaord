@@ -44,11 +44,11 @@ export function LoginForm({
             callbackUrl: "/"
         });
         if (res?.error && res.error === 'CredentialsSignin') {
-            setLoading(false)
             toast.error("Invalid credentials!");
-            redirect("/")
+            setLoading(false)
         } else {
-            
+            toast.success("Login successful!");
+            redirect("/")
         }
     }
     return (

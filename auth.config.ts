@@ -14,7 +14,7 @@ export const authOptions: AuthOptions = {
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
-                email: { label: "Email", type: "text", placeholder: "abdurrehman@gmail.com" },
+                email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
@@ -39,7 +39,7 @@ export const authOptions: AuthOptions = {
         })
     ],
 
-    secret: process.env.NEXTAUTH_SECRET, // https://next-auth.js.org/configuration/options#:~:text=You%20can%20quickly%20create%20a%20good%20value%20on%20the%20command%20line%20via%20this%20openssl%20command.
+    secret: process.env.NEXTAUTH_SECRET,
     session: { strategy: "jwt" },
     pages: {
         "signIn": "/login",
