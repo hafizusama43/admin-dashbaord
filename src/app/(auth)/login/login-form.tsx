@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -12,6 +12,8 @@ import { Form } from "@/components/ui/form"
 import { RenderInput } from "@/components/form-components/input"
 import { useForm } from "react-hook-form"
 import { Spin } from "@/components/ui/spin"
+import { useSearchParams } from 'next/navigation'
+import { toast } from "sonner"
 
 
 const formSchema = z.object({
@@ -23,6 +25,15 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+    const searchParams = useSearchParams()
+    const search = searchParams.get('error')
+    useEffect(() => {
+        if (search && search === 'CredentialsSignin') {
+            toast.error("Invalid credentials!");
+        }
+    }, [search])
+
+
     const [loading, setLoading] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

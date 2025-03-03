@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET, // https://next-auth.js.org/configuration/options#:~:text=You%20can%20quickly%20create%20a%20good%20value%20on%20the%20command%20line%20via%20this%20openssl%20command.
     session: { strategy: "jwt" },
     pages: {
-        "signIn": "login",
+        "signIn": "/login",
     },
     jwt: {
         // The maximum age of the NextAuth.js issued JWT in seconds.
