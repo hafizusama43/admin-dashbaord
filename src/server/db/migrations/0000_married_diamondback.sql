@@ -1,16 +1,6 @@
-DO $$ BEGIN
- CREATE TYPE "public"."role" AS ENUM('admin', 'manager', 'staff', 'viewer');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."status" AS ENUM('active', 'inactive', 'archived');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "products" (
+CREATE TYPE "public"."role" AS ENUM('admin', 'manager', 'staff', 'viewer');--> statement-breakpoint
+CREATE TYPE "public"."status" AS ENUM('active', 'inactive', 'archived');--> statement-breakpoint
+CREATE TABLE "products" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"image_url" text NOT NULL,
 	"name" text NOT NULL,
@@ -20,8 +10,9 @@ CREATE TABLE IF NOT EXISTS "products" (
 	"available_at" timestamp NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "users" (
+CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
+	"username" text NOT NULL,
 	"first_name" text NOT NULL,
 	"last_name" text NOT NULL,
 	"email" text NOT NULL,
@@ -29,5 +20,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"role" "role" DEFAULT 'viewer' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"is_deleted" boolean DEFAULT false NOT NULL,
+	CONSTRAINT "users_username_unique" UNIQUE("username"),
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );

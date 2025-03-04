@@ -13,7 +13,8 @@ import { RenderInput } from "@/components/form-components/input"
 import { useForm } from "react-hook-form"
 import { Spin } from "@/components/ui/spin"
 import { toast } from "sonner"
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -26,6 +27,7 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -42,14 +44,14 @@ export function LoginForm({
                 redirect: false,
                 email: data.email,
                 password: data.password,
-                callbackUrl: "/"
+                // callbackUrl: "/"
             });
             if (res?.error && res.error === 'CredentialsSignin') {
                 toast.error("Invalid credentials!");
                 setLoading(false)
             } else {
                 toast.success("Login successful!");
-                redirect("/")
+                router.push('/')
             }
 
         } catch (error) {

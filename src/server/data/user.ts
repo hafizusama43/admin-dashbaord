@@ -16,6 +16,7 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
             role: users.role,
             createdAt: users.createdAt,
             isDeleted: users.isDeleted,
+            username: users.username,
         })
         .from(users)
         .where(and(eq(users.email, email), eq(users.isDeleted, false)))
@@ -35,12 +36,12 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
         createdAt: user.createdAt,
         firstName: user.firstName,
         lastName: user.lastName,
+        username: user.username,
     } as User;
 };
 
 
 export const createUser = async (data: Record<string, string>): Promise<boolean> => {
-    console.log(data)
     const user = await db.insert(users).values([
         {
             firstName: data.firstName,
@@ -50,6 +51,7 @@ export const createUser = async (data: Record<string, string>): Promise<boolean>
             role: "admin",
             createdAt: new Date(),
             isDeleted: false,
+            username: data.username,
         },
     ]).execute();
     return user.rowCount > 0 ? true : false;

@@ -1,7 +1,8 @@
-import { AuthOptions, User } from "next-auth"
+import { AuthOptions, getServerSession, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/server/data/user";
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 
 export const authOptions: AuthOptions = {
     // Configure one or more authentication providers
@@ -18,7 +19,6 @@ export const authOptions: AuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                console.log(credentials)
                 if (!credentials?.email || !credentials.password) { return null }
                 let user: User | null;
                 try {
@@ -63,4 +63,14 @@ export const authOptions: AuthOptions = {
             return session;
         }
     }
+}
+
+// Use it in server contexts
+export function auth(
+    ...args:
+        | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+        | [NextApiRequest, NextApiResponse]
+        | []
+) {
+    return getServerSession(...args, authOptions);
 }

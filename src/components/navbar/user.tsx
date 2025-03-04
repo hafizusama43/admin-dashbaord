@@ -1,6 +1,6 @@
+'use client'
+
 import { Button } from '@/components/ui/button';
-// import { auth, signOut } from '@/lib/auth';
-import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,10 +9,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+// import { auth } from '../../../auth.config';
 import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/react';
 
-export async function User() {
-  // let session = await auth();
+export function User() {
+  const session = useSession();
+  console.log(session)
+  console.log(session.data)
+  // const session = await auth();
+  // console.log(session?.user)
   // let user = session?.user;
 
   return (
@@ -32,28 +38,20 @@ export async function User() {
           /> */}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuContent align="end" className='min-w-48'>
+        <DropdownMenuLabel>{session?.data?.user.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem className='p-0'>
+          <Link href={'/Settings'} className='w-full p-3'>Settings</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        {/* {user ? (
-          <DropdownMenuItem>
-            <form
-              action={async () => {
-                'use server';
-                await signOut();
-              }}
-            >
-              <button type="submit">Sign Out</button>
-            </form>
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem>
-            <Link href="/login">Sign In</Link>
-          </DropdownMenuItem>
-        )} */}
+        {/* <DropdownMenuItem className='p-0'>
+          <Link href={'/Settings'} className='w-full p-3'>Settings</Link>
+        </DropdownMenuItem> */}
+
+        <DropdownMenuItem>
+          {/* <Button onClick={() => { signOut({ redirect: true, callbackUrl: "/login" }) }}></Button> */}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
