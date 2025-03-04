@@ -22,24 +22,27 @@ export function ProductsTable({ offset: initialOffset, search }: { offset: numbe
   const productsPerPage = 5; // Adjust this based on your API's pagination
 
   const { products, status, totalProducts } = useAppSelector((state) => state.product);
-  const [offset, setOffset] = useState(initialOffset || productsPerPage);
+  const [offset, setOffset] = useState(initialOffset);
 
   useEffect(() => {
     dispatch(getProducts({ offset, search }));
 
     return () => {
       dispatch(setProductSliceBits({ bitToSet: "products", value: [] }));
-    }
-  }, [offset])
-
+    };
+  }, [offset, search]);
 
   const handlePrev = () => {
-    setOffset((prev) => Math.max(productsPerPage, prev - productsPerPage));
+    setOffset((prev) => Math.max(0, prev - productsPerPage)); // Prevent going below 0
   };
 
   const handleNext = () => {
-    setOffset((prev) => Math.min(prev + productsPerPage, totalProducts));
+    setOffset((prev) => Math.min(prev + productsPerPage, totalProducts - 1)); // Prevent going over the totalProducts
   };
+
+  // Calculate the range of products being shown
+  const startProduct = offset + 1;
+  const endProduct = Math.min(offset + productsPerPage, totalProducts);
 
   return (
     <Card>
@@ -90,16 +93,16 @@ export function ProductsTable({ offset: initialOffset, search }: { offset: numbe
           <div className="text-muted-foreground text-xs">
             Showing{" "}
             <strong>
-              {Math.max(0, offset - productsPerPage + 1)}-{Math.min(offset, totalProducts)}
+              {startProduct}-{endProduct}
             </strong>{" "}
             of <strong>{totalProducts}</strong> products
           </div>
           <div className="flex">
-            <Button variant="ghost" size="sm" onClick={handlePrev} disabled={offset === productsPerPage}>
+            <Button variant="ghost" size="sm" onClick={handlePrev} disabled={offset === 0}>
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleNext} disabled={offset >= totalProducts}>
+            <Button variant="ghost" size="sm" onClick={handleNext} disabled={offset + productsPerPage >= totalProducts}>
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
