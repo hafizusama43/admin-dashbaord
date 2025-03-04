@@ -5,11 +5,9 @@ import type { NextRequest } from 'next/server'
 const secret = process.env.AUTH_SECRET;
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request, secret });
-  console.log(token)
-  const { pathname } = request.nextUrl;
+  const user = await getToken({ req: request, secret });
 
-  if (!token && pathname.startsWith('/')) {
+  if (!user || user.role !== 'admin') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -18,7 +16,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-      "/dashboard(.*)",        // Secure dashboard routes
-      // "/api/(.*)" // Apply to all API routes (if needed)
+    "/dashboard(.*)", // Secure dashboard routes
   ],
 };
