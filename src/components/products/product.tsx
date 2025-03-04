@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,11 +10,33 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { SelectProduct } from "@/server/db/schema";
+import { useAppDispatch } from "@/lib/store/hooks";
+import { setProductSliceBits } from "@/lib/store/features/productsSlice";
 
 export function Product({ product }: { product: SelectProduct }) {
+  const dispatch = useAppDispatch();
+
+  const handleEditProduct = (productId: number) => {
+    dispatch(setProductSliceBits({ bitToSet: "product", value: product }))
+    dispatch(setProductSliceBits({ bitToSet: "showEditModal", value: true }))
+    console.log("Edit product with id: ", productId);
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    dispatch(setProductSliceBits({ bitToSet: "product", value: product }))
+    dispatch(setProductSliceBits({ bitToSet: "showDeleteModal", value: true }))
+    console.log("Delete product with id: ", productId);
+  };
+
+  const handleViewProduct = (productId: number) => {
+    dispatch(setProductSliceBits({ bitToSet: "product", value: product }))
+    dispatch(setProductSliceBits({ bitToSet: "showViewModal", value: true }))
+    console.log("View product with id: ", productId);
+  };
+
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -45,12 +69,9 @@ export function Product({ product }: { product: SelectProduct }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>
-              {/* <form action={deleteProduct}>
-                <button type="submit">Delete</button>
-              </form> */}
-            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" onClick={() => { handleViewProduct(product.id) }}><Eye /> View</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" onClick={() => { handleEditProduct(product.id) }}><Edit /> Edit</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" onClick={() => { handleDeleteProduct(product.id) }}><Trash2 /> Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

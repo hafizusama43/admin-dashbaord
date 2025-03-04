@@ -4,16 +4,28 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AccountSliceState {
   status: "idle" | "loading" | "failed";
+  deleteStatus: "idle" | "loading" | "failed";
   products: SelectProduct[];
   newOffset: number | null;
-  totalProducts: number
+  totalProducts: number;
+  product: SelectProduct | null;
+  showEditModal: boolean;
+  showViewModal: boolean;
+  showDeleteModal: boolean;
+  reFetch: boolean;
 }
 
 const initialState: AccountSliceState = {
   status: "idle",
+  deleteStatus: "idle",
   products: [],
+  product: null,
   newOffset: null,
-  totalProducts: 0
+  totalProducts: 0,
+  showEditModal: false,
+  showViewModal: false,
+  showDeleteModal: false,
+  reFetch: false,
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
@@ -63,8 +75,40 @@ export const productSlice = createAppSlice({
         },
       }
     ),
+
+    deleteProduct: create.asyncThunk(
+      async (data: { [key: string]: string | number }) => {
+        const baseUrl = process.env.NEXT_PUBLIC_API_BASEURL;
+        const apiUrl = new URL(`${baseUrl}/product`);
+
+        // Append query parameters
+        Object.entries(data).forEach(([key, value]) => {
+          apiUrl.searchParams.append(key, String(value));
+        });
+        const response = await fetch(apiUrl, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        });
+        return await response.json();
+      },
+      {
+        pending: (state) => {
+          state.deleteStatus = "loading";
+        },
+        fulfilled: (state, action) => {
+          state.reFetch = true;
+          state.deleteStatus = "idle";
+        },
+        rejected: (state) => {
+          state.deleteStatus = "failed";
+        },
+      }
+    ),
   }),
 });
 
-export const { setProductSliceBits, getProducts } = productSlice.actions;
+export const { setProductSliceBits, getProducts, deleteProduct } = productSlice.actions;
 export const productReducer = productSlice.reducer;
