@@ -1,30 +1,24 @@
-'use client';
+"use client";
 
-import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  Table
-} from '@/components/ui/table';
+import { TableHead, TableRow, TableHeader, TableBody, Table } from "@/components/ui/table";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import { Product } from './product';
-import { SelectProduct } from 'server/db/drizzle';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+  CardTitle,
+} from "@/components/ui/card";
+import { Product } from "./product";
+import { SelectProduct } from "server/db/drizzle";
+import { useRouter } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function ProductsTable({
   products,
   offset,
-  totalProducts
+  totalProducts,
 }: {
   products: SelectProduct[];
   offset: number;
@@ -45,9 +39,7 @@ export function ProductsTable({
     <Card>
       <CardHeader>
         <CardTitle>Products</CardTitle>
-        <CardDescription>
-          Manage your products and view their sales performance.
-        </CardDescription>
+        <CardDescription>Manage your products and view their sales performance.</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
@@ -59,9 +51,7 @@ export function ProductsTable({
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="hidden md:table-cell">Price</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Total Sales
-              </TableHead>
+              <TableHead className="hidden md:table-cell">Total Sales</TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
@@ -76,12 +66,12 @@ export function ProductsTable({
         </Table>
       </CardContent>
       <CardFooter>
-        <form className="flex items-center w-full justify-between">
-          <div className="text-xs text-muted-foreground">
-            Showing{' '}
+        <form className="flex w-full items-center justify-between">
+          <div className="text-muted-foreground text-xs">
+            Showing{" "}
             <strong>
               {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
-            </strong>{' '}
+            </strong>{" "}
             of <strong>{totalProducts}</strong> products
           </div>
           <div className="flex">

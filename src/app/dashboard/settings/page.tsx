@@ -1,22 +1,16 @@
-import React from 'react'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card';
+import React from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const page = () => {
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Settings</CardTitle>
-                <CardDescription>View all settings here.</CardDescription>
-            </CardHeader>
-            <CardContent></CardContent>
-        </Card>
-    )
-}
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Settings</CardTitle>
+        <CardDescription>View all settings here.</CardDescription>
+      </CardHeader>
+      <CardContent></CardContent>
+    </Card>
+  );
+};
 
-export default page
+export default page;

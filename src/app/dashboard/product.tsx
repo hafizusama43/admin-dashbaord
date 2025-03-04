@@ -1,17 +1,17 @@
-import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { deleteProduct } from './actions';
-import { SelectProduct } from 'server/db/schema';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { deleteProduct } from "./actions";
+import { SelectProduct } from "server/db/schema";
 
 export function Product({ product }: { product: SelectProduct }) {
   return (

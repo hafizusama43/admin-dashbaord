@@ -1,4 +1,13 @@
-import { pgTable, serial, text, numeric, integer, timestamp, pgEnum, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  numeric,
+  integer,
+  timestamp,
+  pgEnum,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 // Define status ENUM
 export const statusEnum = pgEnum("status", ["active", "inactive", "archived"]);
@@ -33,7 +42,6 @@ export const users = pgTable("users", {
 // TypeScript types
 export type SelectProduct = typeof products.$inferSelect;
 export type InsertProduct = typeof products.$inferInsert;
-
 
 export type SelectUser = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;

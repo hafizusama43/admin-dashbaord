@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export default function Error({
   error,
-  reset
+  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
@@ -17,12 +17,8 @@ export default function Error({
   return (
     <main className="p-4 md:p-6">
       <div className="mb-8 space-y-4">
-        <h1 className="font-semibold text-lg md:text-2xl">
-          Something went wrong
-        </h1>
-        <p>
-          Unable to connect to database!!.
-        </p>
+        <h1 className="text-lg font-semibold md:text-2xl">Something went wrong</h1>
+        <p>Unable to connect to database!!.</p>
       </div>
     </main>
   );
