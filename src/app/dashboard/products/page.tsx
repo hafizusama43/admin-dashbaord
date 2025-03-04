@@ -3,6 +3,8 @@ import { File, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductsTable } from "../../../components/products/products-table";
 import React from "react";
+import ProdutDeleteDialog from "@/components/products/product-delete";
+import ProductDetails from "@/components/products/product-details";
 
 export default async function ProductsPage(props: { searchParams: Promise<{ q: string; offset: string }>; }) {
   const searchParams = await props.searchParams;
@@ -22,6 +24,8 @@ export default async function ProductsPage(props: { searchParams: Promise<{ q: s
       <div>
         <ProductsTable offset={offset ?? 0} search={search} />
       </div>
+      <ProdutDeleteDialog />
+      <ProductDetails />
     </React.Fragment>
   );
 }
