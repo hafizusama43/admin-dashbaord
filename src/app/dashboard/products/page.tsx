@@ -1,10 +1,10 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { File, PlusCircle } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductsTable } from "../../../components/products/products-table";
 import React from "react";
 import ProdutDeleteDialog from "@/components/products/product-delete";
 import ProductDetails from "@/components/products/product-details";
+import AddProductDialong from "@/components/products/product-add";
 
 export default async function ProductsPage(props: { searchParams: Promise<{ q: string; offset: string }>; }) {
   const searchParams = await props.searchParams;
@@ -26,6 +26,7 @@ export default async function ProductsPage(props: { searchParams: Promise<{ q: s
       </div>
       <ProdutDeleteDialog />
       <ProductDetails />
+      <AddProductDialong />
     </React.Fragment>
   );
 }

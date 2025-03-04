@@ -9,7 +9,6 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { deleteProduct, setProductSliceBits } from '@/lib/store/features/productsSlice';
@@ -34,7 +33,6 @@ const ProdutDeleteDialog = () => {
 
     return (
         <AlertDialog open={showDeleteModal}>
-            <AlertDialogTrigger>Open</AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
