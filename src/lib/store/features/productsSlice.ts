@@ -1,12 +1,19 @@
 import { createAppSlice } from "@/lib/store/createAppSlice";
+import { SelectProduct } from "@/server/db/schema";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AccountSliceState {
   status: "idle" | "loading" | "failed";
+  products: SelectProduct[];
+  newOffset: number | null;
+  totalProducts: number
 }
 
 const initialState: AccountSliceState = {
   status: "idle",
+  products: [],
+  newOffset: null,
+  totalProducts: 0
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
@@ -53,4 +60,4 @@ export const productSlice = createAppSlice({
 });
 
 export const { setProductSliceBits, getProducts } = productSlice.actions;
-export const accountReducer = productSlice.reducer;
+export const productReducer = productSlice.reducer;

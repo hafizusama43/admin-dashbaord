@@ -5,35 +5,25 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Product } from "./product";
-import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { SelectProduct } from "@/server/db/schema";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import { getProducts, setProductSliceBits } from "@/lib/store/features/productsSlice";
 
-export function ProductsTable({
-  products,
-  offset,
-  totalProducts,
-}: {
-  products: SelectProduct[];
-  offset: number;
-  totalProducts: number;
-}) {
-  let router = useRouter();
-  let productsPerPage = 5;
+export function ProductsTable({ offset, search, }: { offset: string; search: string; }) {
+  const dispatch = useAppDispatch();
+  const { products } = useAppSelector((state) => state.product);
 
-  function prevPage() {
-    router.back();
-  }
+  useEffect(() => {
+    dispatch(getProducts({ offset, search }));
 
-  function nextPage() {
-    router.push(`/?offset=${offset}`, { scroll: false });
-  }
+    return () => {
+      dispatch(setProductSliceBits({ bitToSet: "products", value: [] }));
+    }
+  }, [])
 
   return (
     <Card>
@@ -59,13 +49,13 @@ export function ProductsTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
+            {/* {products.map((product) => (
               <Product key={product.id} product={product} />
-            ))}
+            ))} */}
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter>
+      {/* <CardFooter>
         <form className="flex w-full items-center justify-between">
           <div className="text-muted-foreground text-xs">
             Showing{" "}
@@ -97,7 +87,7 @@ export function ProductsTable({
             </Button>
           </div>
         </form>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

@@ -1,6 +1,6 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { productSlice } from "./features/productsSlice";
+import { productReducer } from "./features/productsSlice";
 
 
 // Defining the resetState action here when called all slices listening to this will reset to initial state
@@ -9,7 +9,7 @@ import { productSlice } from "./features/productsSlice";
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineReducers({
-  product: productSlice,
+  product: productReducer,
 });
 
 // const rootReducer = combineSlices();
