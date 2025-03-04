@@ -5,19 +5,24 @@ import {
   Card,
   CardContent,
   CardDescription,
-  // CardFooter,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { getProducts, setProductSliceBits } from "@/lib/store/features/productsSlice";
 import { Product } from "./product";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export function ProductsTable({ offset, search, }: { offset: string; search: string; }) {
+export function ProductsTable({ offset: initialOffset, search }: { offset: number; search: string }) {
   const dispatch = useAppDispatch();
-  const { products, status } = useAppSelector((state) => state.product);
+  const productsPerPage = 5; // Adjust this based on your API's pagination
+
+  const { products, status, totalProducts } = useAppSelector((state) => state.product);
+  const [offset, setOffset] = useState(initialOffset || productsPerPage);
 
   useEffect(() => {
     dispatch(getProducts({ offset, search }));
@@ -25,12 +30,16 @@ export function ProductsTable({ offset, search, }: { offset: string; search: str
     return () => {
       dispatch(setProductSliceBits({ bitToSet: "products", value: [] }));
     }
-  }, [])
+  }, [offset])
 
 
-  useEffect(() => {
-    console.log(products)
-  }, [products])
+  const handlePrev = () => {
+    setOffset((prev) => Math.max(productsPerPage, prev - productsPerPage));
+  };
+
+  const handleNext = () => {
+    setOffset((prev) => Math.min(prev + productsPerPage, totalProducts));
+  };
 
   return (
     <Card>
@@ -76,39 +85,27 @@ export function ProductsTable({ offset, search, }: { offset: string; search: str
           </TableBody>
         </Table>
       </CardContent>
-      {/* <CardFooter>
-        <form className="flex w-full items-center justify-between">
+      <CardFooter>
+        <div className="flex w-full items-center justify-between">
           <div className="text-muted-foreground text-xs">
             Showing{" "}
             <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
+              {Math.max(0, offset - productsPerPage + 1)}-{Math.min(offset, totalProducts)}
             </strong>{" "}
             of <strong>{totalProducts}</strong> products
           </div>
           <div className="flex">
-            <Button
-              formAction={prevPage}
-              variant="ghost"
-              size="sm"
-              type="submit"
-              disabled={offset === productsPerPage}
-            >
+            <Button variant="ghost" size="sm" onClick={handlePrev} disabled={offset === productsPerPage}>
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
             </Button>
-            <Button
-              formAction={nextPage}
-              variant="ghost"
-              size="sm"
-              type="submit"
-              disabled={offset + productsPerPage > totalProducts}
-            >
+            <Button variant="ghost" size="sm" onClick={handleNext} disabled={offset >= totalProducts}>
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
-        </form>
-      </CardFooter> */}
+        </div>
+      </CardFooter>
     </Card>
   );
 }

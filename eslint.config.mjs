@@ -21,7 +21,7 @@ const eslintConfig = [
 
     rules: {
       "react/no-unescaped-entities": "off",
-      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/exhaustive-deps": "on",
       "unused-imports/no-unused-imports": "error",
     },
   },

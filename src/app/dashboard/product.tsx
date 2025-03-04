@@ -33,7 +33,7 @@ export function Product({ product }: { product: SelectProduct }) {
       <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
       <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {/* {product.availableAt.toLocaleDateString("en-US")} */}
+        {new Date(product.availableAt).toLocaleDateString("en-US")}
       </TableCell>
       <TableCell>
         <DropdownMenu>

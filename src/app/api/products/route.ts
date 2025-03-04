@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
-        // const body = await request.json(); // Parse the request body
-        const body: Record<string, any> = {};
-        const search = body.q ?? "";
-        const offset = body.offset ?? 0;
+        const searchParams: URLSearchParams = request.nextUrl.searchParams;
+        console.log(searchParams);
+
+        const search = searchParams.get('search') ?? "";
+        const offset = Number(searchParams.get('offset')) || 0; // Convert to number
         const products = await getProducts(search, offset);
         return NextResponse.json(products);
     } catch (error) {
