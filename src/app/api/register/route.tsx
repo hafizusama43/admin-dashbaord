@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     await createUser(body);
     return NextResponse.json({ success: true, message: "User created successfully!" });
   } catch (error) {
-    console.error("Error creating nav link:", error);
-    return NextResponse.json({ error: "Failed to create nav link" }, { status: 500 });
+    console.error("Error creating user:", error);
+    return NextResponse.json({ error: "Failed to create user" }, { status: 500 });
   }
 }
