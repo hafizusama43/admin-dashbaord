@@ -10,10 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Product } from "./product";
-import { SelectProduct } from "server/db/drizzle";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SelectProduct } from "@/server/db/schema";
 
 export function ProductsTable({
   products,

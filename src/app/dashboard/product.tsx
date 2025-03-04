@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { deleteProduct } from "./actions";
-import { SelectProduct } from "server/db/schema";
+import { SelectProduct } from "@/server/db/schema";
 
 export function Product({ product }: { product: SelectProduct }) {
   return (
@@ -48,9 +47,9 @@ export function Product({ product }: { product: SelectProduct }) {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>
-              <form action={deleteProduct}>
+              {/* <form action={deleteProduct}>
                 <button type="submit">Delete</button>
-              </form>
+              </form> */}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
