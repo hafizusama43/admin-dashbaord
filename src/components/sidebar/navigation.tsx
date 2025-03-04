@@ -27,23 +27,23 @@ export function DesktopNav() {
                     <span className="sr-only">Acme Inc</span>
                 </Link>
 
-                <NavItem href="/" label="Dashboard">
+                <NavItem href="/dashboard" label="Dashboard">
                     <Home className="h-5 w-5" />
                 </NavItem>
 
-                <NavItem href="/orders" label="Orders">
+                <NavItem href="/dashboard/orders" label="Orders">
                     <ShoppingCart className="h-5 w-5" />
                 </NavItem>
 
-                <NavItem href="/products" label="Products">
+                <NavItem href="/dashboard/products" label="Products">
                     <Package className="h-5 w-5" />
                 </NavItem>
 
-                <NavItem href="/customers" label="Customers">
+                <NavItem href="/dashboard/customers" label="Customers">
                     <Users2 className="h-5 w-5" />
                 </NavItem>
 
-                <NavItem href="/analytics" label="Analytics">
+                <NavItem href="/dashboard/analytics" label="Analytics">
                     <LineChart className="h-5 w-5" />
                 </NavItem>
             </nav>

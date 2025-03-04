@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
         search: ''
       }
     ]
+  },
+  async redirects() {
+    return [{
+      source: "/",
+      destination: "/dashboard",
+      permanent: true
+    },
+    ]
   }
 };
 

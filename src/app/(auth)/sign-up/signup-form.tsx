@@ -61,7 +61,7 @@ export function SignupForm({
             if (!res.ok) throw new Error(`Error: ${res.status} ${res.statusText}`);
 
             toast.success("User created successfully!");
-            // form.reset()
+            form.reset()
         } catch (error) {
             console.error("Submit error:", error);
             toast.error("Failed to create user. Please try again.");

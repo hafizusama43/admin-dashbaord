@@ -50,7 +50,9 @@ export function User() {
         </DropdownMenuItem> */}
 
         <DropdownMenuItem>
-          {/* <Button onClick={() => { signOut({ redirect: true, callbackUrl: "/login" }) }}></Button> */}
+          <Button variant="destructive" className='w-full text-white' onClick={() => { signOut({ redirect: true, callbackUrl: "/login" }) }}>
+            Logout
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
