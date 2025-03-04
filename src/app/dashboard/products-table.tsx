@@ -19,7 +19,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function ProductsTable({ offset: initialOffset, search }: { offset: number; search: string }) {
   const dispatch = useAppDispatch();
-  const productsPerPage = 5; // Adjust this based on your API's pagination
+  const productsPerPage = 5;
 
   const { products, status, totalProducts } = useAppSelector((state) => state.product);
   const [offset, setOffset] = useState(initialOffset);
@@ -88,27 +88,28 @@ export function ProductsTable({ offset: initialOffset, search }: { offset: numbe
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-center justify-between">
-          <div className="text-muted-foreground text-xs">
-            Showing{" "}
-            <strong>
-              {startProduct}-{endProduct}
-            </strong>{" "}
-            of <strong>{totalProducts}</strong> products
+      {status === 'idle' &&
+        <CardFooter>
+          <div className="flex w-full items-center justify-between">
+            <div className="text-muted-foreground text-xs">
+              Showing{" "}
+              <strong>
+                {startProduct}-{endProduct}
+              </strong>{" "}
+              of <strong>{totalProducts}</strong> products
+            </div>
+            <div className="flex">
+              <Button variant="ghost" size="sm" onClick={handlePrev} disabled={offset === 0}>
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Prev
+              </Button>
+              <Button variant="ghost" size="sm" onClick={handleNext} disabled={offset + productsPerPage >= totalProducts}>
+                Next
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
           </div>
-          <div className="flex">
-            <Button variant="ghost" size="sm" onClick={handlePrev} disabled={offset === 0}>
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Prev
-            </Button>
-            <Button variant="ghost" size="sm" onClick={handleNext} disabled={offset + productsPerPage >= totalProducts}>
-              Next
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </CardFooter>
+        </CardFooter>}
     </Card>
   );
 }
