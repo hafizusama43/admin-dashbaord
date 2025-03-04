@@ -1,6 +1,6 @@
 "use client";
 
-import { TableHead, TableRow, TableHeader, TableBody, Table } from "@/components/ui/table";
+import { TableHead, TableRow, TableHeader, TableBody, Table, TableCell } from "@/components/ui/table";
 import {
   Card,
   CardContent,
@@ -9,13 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { getProducts, setProductSliceBits } from "@/lib/store/features/productsSlice";
+import { Product } from "./product";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProductsTable({ offset, search, }: { offset: string; search: string; }) {
   const dispatch = useAppDispatch();
-  const { products } = useAppSelector((state) => state.product);
+  const { products, status } = useAppSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getProducts({ offset, search }));
@@ -24,6 +26,11 @@ export function ProductsTable({ offset, search, }: { offset: string; search: str
       dispatch(setProductSliceBits({ bitToSet: "products", value: [] }));
     }
   }, [])
+
+
+  useEffect(() => {
+    console.log(products)
+  }, [products])
 
   return (
     <Card>
@@ -49,9 +56,23 @@ export function ProductsTable({ offset, search, }: { offset: string; search: str
             </TableRow>
           </TableHeader>
           <TableBody>
-            {/* {products.map((product) => (
-              <Product key={product.id} product={product} />
-            ))} */}
+            {status === "loading" ?
+              <React.Fragment>
+                {Array.from({ length: 7 }, (_, i) => (
+                  <TableRow key={i}>
+                    {Array.from({ length: 7 }, (_, i) => (
+                      <TableCell key={i}>
+                        <Skeleton className="h-10 w-full" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </React.Fragment>
+              :
+              products.map((product) => (
+                <Product key={product.id} product={product} />
+              ))
+            }
           </TableBody>
         </Table>
       </CardContent>

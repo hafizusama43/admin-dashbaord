@@ -32,14 +32,19 @@ export const productSlice = createAppSlice({
     ),
     getProducts: create.asyncThunk(
       async (data: { [key: string]: string | number }) => {
-        const apiUrl = process.env.NEXT_PUBLIC_API_BASEURL + "/products";
+        const baseUrl = process.env.NEXT_PUBLIC_API_BASEURL;
+        const apiUrl = new URL(`${baseUrl}/products`);
+
+        // Append query parameters
+        Object.entries(data).forEach(([key, value]) => {
+          apiUrl.searchParams.append(key, String(value));
+        });
         const response = await fetch(apiUrl, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify(data),
         });
         return await response.json();
       },
@@ -48,7 +53,9 @@ export const productSlice = createAppSlice({
           state.status = "loading";
         },
         fulfilled: (state, action) => {
-          console.log(action.payload);
+          state.products = action.payload.products;
+          state.newOffset = action.payload.newOffset;
+          state.totalProducts = action.payload.totalProducts
           state.status = "idle";
         },
         rejected: (state) => {

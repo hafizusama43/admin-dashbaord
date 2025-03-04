@@ -9,18 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { auth } from '../../../auth.config';
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
 export function User() {
   const session = useSession();
-  console.log(session);
-  console.log(session.data);
-  // const session = await auth();
-  // console.log(session?.user)
-  // let user = session?.user;
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
