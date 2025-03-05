@@ -48,7 +48,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         setLoading(false);
       } else {
         toast.success("Login successful!");
-        router.push("/");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error(error);
