@@ -9,6 +9,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 import CustomTooltip from "../ui/custom-tooltip";
+import clsx from "clsx";
 
 interface Options {
   [key: string]: string;
@@ -49,7 +50,7 @@ export const RenderSelect = <T extends FieldValues>({
           )}
           <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className={clsx("", { "mt-1": label })}>
                 <SelectValue
                   placeholder={placeholder ? placeholder : "Please select one of the options"}
                 />

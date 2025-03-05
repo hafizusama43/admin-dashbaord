@@ -29,7 +29,7 @@ export async function getProducts(
   }
 
   const totalProducts = await db.select({ count: count() }).from(products);
-  const moreProducts = await db.select().from(products).limit(5).offset(offset);
+  const moreProducts = await db.select().from(products).limit(5).offset(offset).orderBy(products.id);
   const newOffset = moreProducts.length >= 5 ? offset + 5 : null;
 
   return {
@@ -38,6 +38,18 @@ export async function getProducts(
     totalProducts: totalProducts[0].count,
   };
 }
+
 export async function deleteProductById(id: number) {
   await db.delete(products).where(eq(products.id, id));
+}
+
+export async function addProduct(product: SelectProduct) {
+  await db.insert(products).values({
+    ...product,
+    availableAt: product.availableAt ?? new Date(), // Use existing value or fallback to current date
+  });
+}
+
+export async function updateProduct(product: SelectProduct) {
+  await db.update(products).set(product).where(eq(products.id, product.id));
 }

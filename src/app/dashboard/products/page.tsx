@@ -1,10 +1,9 @@
-import { PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ProductsTable } from "../../../components/products/products-table";
 import React from "react";
 import ProdutDeleteDialog from "@/components/products/product-delete";
 import ProductDetails from "@/components/products/product-details";
 import AddProductDialong from "@/components/products/product-add";
+import AddProductBtn from "./add-product-btn";
 
 export default async function ProductsPage(props: { searchParams: Promise<{ q: string; offset: string }>; }) {
   const searchParams = await props.searchParams;
@@ -15,10 +14,7 @@ export default async function ProductsPage(props: { searchParams: Promise<{ q: s
     <React.Fragment>
       <div className="flex items-center">
         <div className="ml-auto flex items-center gap-2">
-          <Button size="sm" className="h-8 gap-1">
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Product</span>
-          </Button>
+          <AddProductBtn />
         </div>
       </div>
       <div>
